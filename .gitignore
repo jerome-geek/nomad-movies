@@ -281,6 +281,8 @@ lint/tmp/
 # VSCode Extension
 .history
 
+# React-Native
 .expo-shared
+web-build
 
 # End of https://www.gitignore.io/api/reactnative
