@@ -25,6 +25,7 @@ export default class MoviesContainer extends React.Component {
         data: { results: nowPlaying },
       } = await movies.getNowPlaying());
     } catch (error) {
+      console.log('TCL: MoviesContainer -> componentDidMount -> error', error);
       error = "Can't get Movies.";
     } finally {
       this.setState({ upcoming, popular, nowPlaying, error, loading: false });
@@ -32,9 +33,15 @@ export default class MoviesContainer extends React.Component {
   }
 
   render() {
-    const { loading } = this.state;
-    console.log('TCL: MoviesContainer -> render -> this.state', this.state);
+    const { loading, upcoming, popular, nowPlaying } = this.state;
 
-    return <MoviesPresenter loading={loading} />;
+    return (
+      <MoviesPresenter
+        loading={loading}
+        upcoming={upcoming}
+        popular={popular}
+        nowPlaying={nowPlaying}
+      />
+    );
   }
 }
