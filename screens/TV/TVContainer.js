@@ -21,7 +21,7 @@ export default class TVContainer extends React.Component {
         data: { results: topRated },
       } = await tv.getTopRated());
       ({
-        data: { results: popular },
+        data: { results: airingToday },
       } = await tv.getAiringToday());
     } catch (error) {
       console.log('TCL: TVContainer -> componentDidMount -> error', error);
