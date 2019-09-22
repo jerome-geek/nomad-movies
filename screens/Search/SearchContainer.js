@@ -13,6 +13,14 @@ export default class SearchContainer extends React.Component {
     this.setState({ searchTerm: text });
   };
 
+  onSubmitEditing = () => {
+    const { searchTerm } = this.state;
+    if (searchTerm !== '') {
+      alert('Searching');
+      return;
+    }
+  };
+
   render() {
     const { loading, movieResults, tvResults, searchTerm } = this.state;
 
@@ -22,6 +30,7 @@ export default class SearchContainer extends React.Component {
         movieResults={movieResults}
         tvResults={tvResults}
         searchTerm={searchTerm}
+        onSubmitEditing={this.onSubmitEditing}
         handleSearchUpdate={this.handleSearchUpdate}
       />
     );
