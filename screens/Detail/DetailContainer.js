@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
+import PropType from 'prop-types';
 import DetailPresenter from './DetailPresenter';
 
 export default class extends React.Component {
