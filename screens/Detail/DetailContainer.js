@@ -1,6 +1,6 @@
 import React from 'react';
-import PropType from 'prop-types';
 import DetailPresenter from './DetailPresenter';
+import { movies, tv } from '../../api';
 
 export default class extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -15,6 +15,7 @@ export default class extends React.Component {
       navigation: {
         state: {
           params: {
+            isMovie,
             id,
             posterPhoto,
             backgroundPhoto,
@@ -26,32 +27,81 @@ export default class extends React.Component {
       },
     } = props;
     this.state = {
+      isMovie,
       id,
       posterPhoto,
       backgroundPhoto,
       title,
       voteAvg,
       overview,
+      loading: true,
     };
+  }
+
+  async componentDidMount() {
+    const { isMovie, id } = this.state;
+    let error, genres, overview, status, date, backgroundPhoto;
+
+    try {
+      if (isMovie) {
+        ({
+          data: {
+            genres,
+            overview,
+            status,
+            release_date: date,
+            packdrop_path: backgroundPhoto,
+          },
+        } = await movies.getMovie(id));
+      } else {
+        ({
+          data: {
+            genres,
+            overview,
+            status,
+            first_air_date: date,
+            packdrop_path: backgroundPhoto,
+          },
+        } = await tv.getShow(id));
+      }
+    } catch (error) {
+      console.log('TCL: componentDidMount -> error', error);
+    } finally {
+      this.setState({
+        loading: false,
+        genres,
+        overview,
+        status,
+        date,
+      });
+    }
   }
 
   render() {
     const {
-      id,
+      isMovie,
       posterPhoto,
       backgroundPhoto,
       title,
       voteAvg,
       overview,
+      loading,
+      date,
+      status,
+      genres,
     } = this.state;
     return (
       <DetailPresenter
-        id={id}
+        isMovie={isMovie}
         posterPhoto={posterPhoto}
         backgroundPhoto={backgroundPhoto}
         title={title}
         voteAvg={voteAvg}
         overview={overview}
+        loading={loading}
+        date={date}
+        status={status}
+        genres={genres}
       />
     );
   }
